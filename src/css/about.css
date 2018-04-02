@@ -1,0 +1,13 @@
+.about {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 80%;
+    height: 240px;
+    font-size: 14px;
+}
+
+.about :not(h1) {
+    text-indent: 1em;
+}
