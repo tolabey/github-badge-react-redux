@@ -1,5 +1,5 @@
 import {combineReducers} from "redux";
-import {userName} from "./userName";
+import userName from "./userName";
 
 export default combineReducers({
     userName
