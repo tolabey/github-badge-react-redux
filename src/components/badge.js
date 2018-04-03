@@ -3,13 +3,17 @@ import "../css/badge.css"
 
 class Badge extends Component {
 
+    componentWillReceiveProps(){
+        console.log(this.props.store.getState(), "badg.js");
+    }
+
     render(){
         return (
             <div className="badge">
                 <div className="badge-top">
                     <div className="badge-top-left"></div>
                     <div className="badge-top-right">
-                        <a href="#" className="user-pic">tolabey</a>
+                        <a href="" className="user-pic">tolabey</a>
                         <p className="repo-activity">No recent repo activity</p>
                     </div>
                 </div>

@@ -8,6 +8,7 @@ import Preview from "../components/preview"
 import "../css/app.css"
 
 class App extends Component {
+
   render() {
     return (
       <div className="App">
@@ -18,9 +19,9 @@ class App extends Component {
 
               <Slogan/>
 
-              <SearchBar/>
+              <SearchBar store={this.props.store}/>
 
-              <Preview/>
+              <Preview store={this.props.store}/>
 
               <About/>
 

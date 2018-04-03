@@ -3,15 +3,16 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './containers/App';
 import {createStore} from "redux"
-import allReducers from "./reducers/index.js"
+import allReducer from "./reducers/index"
 
 
-const store = createStore(allReducers);
+const store = createStore(allReducer);
 
-ReactDOM.render(
+const render = () => {
+    ReactDOM.render(
+        <App store={store}/>, document.getElementById('root')
+    );
+};
 
-        <App />,
-
-    document.getElementById('root')
-
-);
+store.subscribe(render);
+render();
