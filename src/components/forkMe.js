@@ -4,6 +4,10 @@ import "../css/forkme.css"
 
 class ForkMe extends Component {
 
+    shouldComponentUpdate() {
+        return false;
+    }
+
     render(){
         return (
             <div className="forkMe">

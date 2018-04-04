@@ -3,7 +3,7 @@
     .search-bar {
         background: -webkit-linear-gradient(left bottom, rgba(243, 202, 177, .89), rgba(241, 206, 184, .46));
         height: 160px;
-        width: 80%;
+        width: 300px;
         display: flex;
         flex-direction: column;
         justify-content: space-around;

@@ -3,6 +3,10 @@ import "../css/about.css"
 
 class About extends Component {
 
+    shouldComponentUpdate() {
+        return false;
+    }
+
     render(){
         return (
             <div className="about">

@@ -1,18 +1,23 @@
 import React, { Component } from 'react';
 import Badge from "./badge"
 import "../css/preview.css"
+import BadgeError from "./badgeError";
 
 class Preview extends Component {
 
-    componentWillReceiveProps(){
-        console.log(this.props.store.getState(), "preview");
-    }
-
     render(){
+        const status = this.props.store.getState().status;
+        let badge;
+        if(status === 200) {
+                badge = <Badge store={this.props.store}/>;
+        }
+        else{
+            badge = <BadgeError store={this.props.store}/>
+        }
         return (
             <div className="preview">
                 <h4>Preview</h4>
-                <Badge store={this.props.store}></Badge>
+                {badge}
             </div>
         )
     }

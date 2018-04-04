@@ -1,7 +1,7 @@
 @media only screen and (max-width: 768px) {
 
     .slogan {
-        width: 60%;
+        width: 300px;
         display: flex;
         justify-content: flex-start;
         flex-direction: column;

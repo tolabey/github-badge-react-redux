@@ -3,6 +3,10 @@ import "../css/footer.css"
 
 class Footer extends Component {
 
+    shouldComponentUpdate() {
+        return false;
+    }
+
     render(){
         return (
             <div className="footer">
