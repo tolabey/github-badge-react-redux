@@ -1,12 +1,4 @@
 export const NEW_USER_NAME = "NEW_USER_NAME";
-export const NEW_PP = "NEW_PP";
-export const NEW_REPO_ACTIVITY = "NEW_REPO_ACTIVITY";
-export const NEW_LANGUAGES = "NEW_LANGUAGES";
-export const NEW_REPOS = "NEW_REPOS";
-export const NEW_FOLLOWERS = "NEW_FOLLOWERS";
-export const NEW_FORKS = "NEW_FORKS";
-export const NEW_STARGAZERS = "NEW_STARGAZERS";
-export const NEW_GRAPH_DATA = "NEW_GRAPH_DATA";
-export const NEW_USER_URL = "NEW_USER_URL";
 export const TIMEOUT = "TIMEOUT";
 export const STATUS = "STATUS";
+export const UPDATE_BADGE_DATA = "UPDATE_BADGE_DATA";

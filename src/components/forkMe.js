@@ -11,7 +11,7 @@ class ForkMe extends Component {
     render(){
         return (
             <div className="forkMe">
-                <img src={iconforkme} alt="33" height="80" width="80"/>
+                <img src={iconforkme} alt="33"/>
             </div>
         )
     }

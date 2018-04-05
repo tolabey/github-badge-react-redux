@@ -1,19 +1,40 @@
 import {
-    updateUserName,
-    updateFollowers,
-    updateForks,
-    updateGraphData,
-    updateLanguages,
-    updatePP,
-    updateRepoActivity,
-    updateRepos,
-    updateStargazers,
-    updateUserUrl,
     timeoutAction,
-    updateStatus
+    updateBadgeDataAction
 } from "../actions/actions";
 
 export const utils = {
+    handleGithubRequest(dispatch, userName){
+        const githubBaseUrl = "https://api.github.com/users/";
+        const usersUrl = githubBaseUrl + userName;
+        const reposUrl = githubBaseUrl + userName + "/repos?per_page=100";
+        let allFields = [];
+        Promise.all([utils.httpGet(usersUrl), utils.httpGet(reposUrl)])
+            .then((data) => {
+                allFields = {
+                    "login": data[0].result.login || userName,
+                    "followers": data[0].result.followers || "0",
+                    "avatar_url": data[0].result.avatar_url || "https://cdn.pixabay.com/photo/2012/04/15/19/12/cross-34976_960_720.png",
+                    "html_url": data[0].result.html_url || "",
+                    "status": data[0].status || 200
+                };
+                allFields = Object.assign(utils.prepareReposFields(data[1].result), allFields);
+                if(data[0].status === 200){
+                    dispatch(updateBadgeDataAction(allFields));
+                }
+                else if(data[0].status === 404){
+                    console.log("coni")
+
+                    dispatch(updateBadgeDataAction(allFields));
+
+
+                }
+                else if(data[0].status === 403){
+                    dispatch(updateBadgeDataAction(allFields));
+                }
+            })
+    },
+
     prepareReposFields(repos){
 
     let [forks, repoCount, stargazers, languages, repoActivity, controlMapLanguages, graphData] = [0, 0, 0, "", "", {}, [0, 0, 0, 0, 0, 0, 0]];
@@ -42,14 +63,16 @@ export const utils = {
         });
 
     }
-    return [
-            {id: "forks", value: utils.abbreviateNumber(forks), fallback: "-"},
-            {id: "repos", value: utils.abbreviateNumber(repoCount), fallback: "-"},
-            {id: "stargazers", value: utils.abbreviateNumber(stargazers), fallback: "-"},
-            {id: "languages", value: languages + "", fallback: "-"},
-            {id: "repo-activity", value: repoActivity + "", fallback: "-"},
-            {id: "graph", value: graphData, fallback: [0,0,0,0,0,0,0]}
-        ]
+    return {
+        "forks": utils.abbreviateNumber(forks) || "-",
+        "repos": utils.abbreviateNumber(repoCount) || "-",
+        "stargazers": utils.abbreviateNumber(stargazers) || "-",
+        "languages": languages + "" || "-",
+        "repo-activity": repoActivity + "" || "-",
+        "graphData": graphData || [0,0,0,0,0,0,0]
+    }
+
+
 
 },
 
@@ -108,85 +131,9 @@ export const utils = {
         })
     },
 
-    updateBadgeData(store, field, value){
-        switch (field){
-            case "html_url":
-                store.dispatch(updateUserUrl(value));
-                break;
-            case "login":
-                store.dispatch(updateUserName(value));
-                break;
-            case "followers":
-                store.dispatch(updateFollowers(value));
-                break;
-            case "forks":
-                store.dispatch(updateForks(value));
-                break;
-            case "graph":
-                store.dispatch(updateGraphData(value));
-                break;
-            case "languages":
-                store.dispatch(updateLanguages(value));
-                break;
-            case "avatar_url":
-                store.dispatch(updatePP(value));
-                break;
-            case "repo-activity":
-                store.dispatch(updateRepoActivity(value));
-                break;
-            case "repos":
-                store.dispatch(updateRepos(value));
-                break;
-            case "stargazers":
-                store.dispatch(updateStargazers(value));
-                break;
-            default: break;
-        }
-    },
-
-    handleGithubRequest(store, userName){
-        const githubBaseUrl = "https://api.github.com/users/";
-        const usersUrl = githubBaseUrl + userName;
-        const reposUrl = githubBaseUrl + userName + "/repos?per_page=100";
-        Promise.all([utils.httpGet(usersUrl), utils.httpGet(reposUrl)])
-            .then((data) => {
-                const userFields = [
-                    {id: "login", fallback: userName},
-                    {id: "followers", fallback: "-"},
-                    {id: "avatar_url", fallback: "https://cdn.pixabay.com/photo/2012/04/15/19/12/cross-34976_960_720.png"},
-                    {id: "html_url", fallback: ""}
-                ];
-                const reposFields = utils.prepareReposFields(data[1].result);
-
-                if(data[0].status === 200){
-                    store.dispatch(updateStatus(200));
-                    userFields.map((eachField) => {
-                        utils.updateBadgeData(store, eachField.id, data[0].result[eachField.id]);
-                        return eachField;
-                    });
-
-                    reposFields.map((eachField) => {
-                        utils.updateBadgeData(store, eachField.id, eachField.value);
-                        return eachField;
-                    });
-                }
-                else if(data[0].status === 404){
-                    store.dispatch(updateUserName(userName));
-
-                    store.dispatch(updateStatus(404));
-
-                }
-                else if(data[0].status === 403){
-                    store.dispatch(updateStatus(403));
-                }
-            })
-    },
-
-    debounce(store, func, event, timeout = null){
-        timeout = store.getState().timeout;
+    debounce(dispatch, func, event, timeout = null){
         clearTimeout(timeout);
-        timeout = setTimeout(func, 720, store, event.target.value || "facebook");
-        store.dispatch(timeoutAction(timeout))
+        timeout = setTimeout(func, 720, dispatch, event.target.value || "facebook");
+        dispatch(timeoutAction(timeout))
     }
-
 };

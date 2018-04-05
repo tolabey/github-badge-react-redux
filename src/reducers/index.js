@@ -1,30 +1,26 @@
-import {combineReducers} from "redux";
 import {
-    userName,
-    pp,
-    repoActivity,
-    graphData,
-    stargazers,
-    followers,
-    forks,
-    languages,
-    repos,
-    userUrl,
-    timeout,
-    status
-} from "./badge";
+    TIMEOUT,
+    STATUS,
+    UPDATE_BADGE_DATA
+} from "../const";
+import I from "immutable"
 
-export default combineReducers({
-    userName,
-    pp,
-    repoActivity,
-    graphData,
-    stargazers,
-    followers,
-    forks,
-    languages,
-    repos,
-    userUrl,
-    timeout,
-    status
-})
+
+export function reducer(state = I.Map(), action){
+    switch (action.type){
+
+        case UPDATE_BADGE_DATA:
+            let newState = I.Map();
+            for(let key in action.payload) {
+                newState = newState.set(key, action.payload[key]);
+            }
+            return newState;
+        case TIMEOUT:
+            console.log(action.payload);
+            return state.set("timeout", action.payload);
+        case STATUS:
+            return state.set("status", action.payload);
+        default:
+            return state;
+    }
+}

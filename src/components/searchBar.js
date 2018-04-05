@@ -5,12 +5,12 @@ import {utils} from "../utils";
 class SearchBar extends Component {
 
     componentDidMount(){
-        utils.handleGithubRequest(this.props.store, "facebook");
+        utils.handleGithubRequest(this.props.dispatch, "facebook");
     }
 
     handleUserName(){
         return (event) => {
-            utils.debounce(this.props.store, utils.handleGithubRequest, event);
+            utils.debounce(this.props.dispatch, utils.handleGithubRequest, event, this.props.timeout);
         }
     }
 

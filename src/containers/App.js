@@ -1,36 +1,57 @@
 import React, { Component } from 'react';
+import {createStore} from "redux"
+import {reducer} from "../reducers/index"
 import ForkMe from "../components/forkMe"
 import Slogan from "../components/slogan"
 import SearchBar from "../components/searchBar"
 import About from "../components/about"
 import Footer from "../components/footer"
 import Preview from "../components/preview"
+import I from "immutable";
 import "../css/app.css"
 
 class App extends Component {
 
-  render() {
-    return (
-      <div className="App">
+    constructor(props){
+        super(props);
+        this.store = createStore(reducer);
+        this.state = {main: I.Map()}
+    }
 
-          <ForkMe/>
 
-          <div className="container">
+    componentDidMount(){
+        this.store.subscribe(() => {
+            this.setState({
+                main: this.store.getState()
+            });
+        });
+    }
 
-              <Slogan/>
+    render() {
+        return (
+          <div className="App">
 
-              <SearchBar store={this.props.store}/>
+              <ForkMe/>
 
-              <Preview store={this.props.store}/>
+              <div className="container">
 
-              <About/>
+                  <Slogan/>
 
-              <Footer/>
+                  <SearchBar dispatch={this.store.dispatch} timeout={this.state.main.get("timeout")} />
 
+                  <Preview
+                      dispatch={this.store.dispatch}
+                      main={this.state.main}
+                  />
+
+                  <About/>
+
+                  <Footer/>
+
+              </div>
           </div>
-      </div>
-    );
-  }
+        );
+    }
 }
 
 export default App;

@@ -6,9 +6,8 @@ class BadgeError extends Component {
     render(){
         return (
             <div className="badge-error">
-                <div>{this.props.store.getState().userName} is not found.</div>
-                <h1>{this.props.store.getState().status}</h1>
-
+                <div>{this.props.userName} is not found.</div>
+                <h1>{this.props.status}</h1>
             </div>
         )
     }
