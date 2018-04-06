@@ -9,9 +9,9 @@ class Footer extends Component {
 
     render(){
         return (
-            <div className="footer">
-                Brought to you by Berker Peksag (@berkerpeksag) and Burak Yiğit Kaya (@madbyk)
-            </div>
+          <div className="footer">
+            {"Brought to you by Berker Peksag (@berkerpeksag) and Burak Yiğit Kaya (@madbyk)"}
+          </div>
         )
     }
 }

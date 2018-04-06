@@ -7,19 +7,11 @@ class Slogan extends Component {
         return false;
     }
 
-    bla(e) {
-        console.log("snync-event: ", e.target); // 2 yol
-        e.persist(); // veya store a atılır.
-        setTimeout(() => {
-            console.log("asnync-event: ", e.target); // --> null
-        }, 0)
-    }
-
     render(){
         return(
-            <h1 className="slogan" onClick={this.bla}>
-                Get your <span></span> badge now!
-            </h1>
+          <h1 className="slogan">
+            {"Get your"} <span /> {"badge now!"}
+          </h1>
         )
     }
 }

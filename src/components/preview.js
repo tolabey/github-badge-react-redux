@@ -15,23 +15,23 @@ class Preview extends Component {
         const {data} = this.props;
 
         return (
-            <div className="preview">
-                {
+          <div className="preview">
+            {
                     data.size !== 0 &&
                     (
-                        <div>
-                            <h4>Preview</h4>
-                            {
+                    <div>
+                      <h4>{"Preview"}</h4>
+                      {
                                 data.get("status") === 200 ? (
-                                    <Badge data={data}/>
+                                  <Badge data={data}/>
                                 ) : (
-                                    <BadgeError userName={data.get("login", "")} status={data.get("status")}/>
+                                  <BadgeError userName={data.get("login", "")} status={data.get("status")}/>
                                 )
                             }
-                        </div>
+                    </div>
                     )
                 }
-            </div>
+          </div>
         )
     }
 }

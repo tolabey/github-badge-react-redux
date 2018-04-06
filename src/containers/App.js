@@ -30,21 +30,21 @@ class App extends Component {
     render() {
         return (
           <div className="App">
-              <ForkMe/>
-              <div className="bodybuilder">
-                  <div className="container">
-                      <div className="center">
-                          <div className="left">
-                              <Slogan/>
-                              <Preview data={this.state.main.get("badgeData", I.Map())}/>
-                          </div>
-                          <div className="center-cat"></div>
-                      </div>
-                      <SearchBar dispatch={this.store.dispatch} timeout={this.state.main.get("timeout")} />
-                      <About/>
-                      <Footer/>
+            <ForkMe/>
+            <div className="bodybuilder">
+              <div className="container">
+                <div className="center">
+                  <div className="left">
+                    <Slogan/>
+                    <Preview data={this.state.main.get("badgeData", I.Map())}/>
                   </div>
+                  <div className="center-cat" />
+                </div>
+                <SearchBar dispatch={this.store.dispatch} timeout={this.state.main.get("timeout")} />
+                <About/>
+                <Footer/>
               </div>
+            </div>
           </div>
         );
     }
