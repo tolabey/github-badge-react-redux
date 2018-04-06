@@ -1,11 +1,16 @@
 import React, { Component } from "react";
 import "../css/searchBar.css";
 import {utils} from "../utils";
+import I from "immutable";
 
 class SearchBar extends Component {
 
     componentDidMount(){
         utils.handleGithubRequest(this.props.dispatch, "facebook");
+    }
+
+    shouldComponentUpdate(nextProps) {
+      return !I.is(this.props.timeout, nextProps.timeout);
     }
 
     handleUserName(){
@@ -15,7 +20,7 @@ class SearchBar extends Component {
     }
 
     render(){
-        return (
+      return (
             <div className="search-bar">
                 <input className="search-box" type="text" autoComplete="off" id="username" name="username"
                        placeholder="Your GitHub username" onKeyUp={this.handleUserName()}/>
