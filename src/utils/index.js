@@ -4,77 +4,70 @@ import {
 } from "../actions/actions";
 
 export const utils = {
+
+    debounce(dispatch, func, event, timeout = null){
+        clearTimeout(timeout);
+        timeout = setTimeout(func, 720, dispatch, event.target.value || "facebook");
+        dispatch(timeoutAction(timeout));
+    },
+
     handleGithubRequest(dispatch, userName){
         const githubBaseUrl = "https://api.github.com/users/";
         const usersUrl = githubBaseUrl + userName;
         const reposUrl = githubBaseUrl + userName + "/repos?per_page=100";
         let allFields = [];
+
         Promise.all([utils.httpGet(usersUrl), utils.httpGet(reposUrl)])
             .then((data) => {
                 allFields = {
                     "login": data[0].result.login || userName,
-                    "followers": data[0].result.followers || "0",
-                    "avatar_url": data[0].result.avatar_url || "https://cdn.pixabay.com/photo/2012/04/15/19/12/cross-34976_960_720.png",
-                    "html_url": data[0].result.html_url || "",
+                    "followers": data[0].result.followers ,
+                    "avatar_url": data[0].result.avatar_url,
+                    "html_url": data[0].result.html_url,
                     "status": data[0].status || 200
                 };
+
                 allFields = Object.assign(utils.prepareReposFields(data[1].result), allFields);
-                if(data[0].status === 200){
-                    dispatch(updateBadgeDataAction(allFields));
-                }
-                else if(data[0].status === 404){
-                    console.log("coni")
 
-                    dispatch(updateBadgeDataAction(allFields));
-
-
-                }
-                else if(data[0].status === 403){
-                    dispatch(updateBadgeDataAction(allFields));
-                }
+                dispatch(updateBadgeDataAction(allFields));
             })
     },
 
     prepareReposFields(repos){
+        let [forks, repoCount, stargazers, languages, repoActivity, controlMapLanguages, graphData] = [0, 0, 0, "", "", {}, [0, 0, 0, 0, 0, 0, 0]];
+        const graphColumnNumber = 7, dateDistance = 10;
+        const controlDateArr = utils.createControlDates(graphColumnNumber, dateDistance);
 
-    let [forks, repoCount, stargazers, languages, repoActivity, controlMapLanguages, graphData] = [0, 0, 0, "", "", {}, [0, 0, 0, 0, 0, 0, 0]];
-    const graphColumnNumber = 7, dateDistance = 10;
+        if(repos[Symbol.iterator] !== undefined){
+            repos.forEach(function(repo){
+                if(!repo.fork) {
+                    repoCount++;
+                    stargazers += repo.stargazers_count;
 
+                    if(!(controlMapLanguages[repo.language]) && repo.language !== null ){
+                        controlMapLanguages[repo.language] = true;
+                        languages += repo.language + ", ";
+                    }
 
-    const controlDateArr = utils.createControlDates(graphColumnNumber, dateDistance);
-
-    if(repos[Symbol.iterator] !== undefined){
-        repos.forEach(function(repo){
-            if(!repo.fork) {
-                repoCount++;
-                stargazers += repo.stargazers_count;
-
-                if(!(controlMapLanguages[repo.language]) && repo.language !== null ){
-                    controlMapLanguages[repo.language] = true;
-                    languages += repo.language + ", ";
+                    graphData = utils.prepareGraphData(controlDateArr, graphData, new Date(repo.pushed_at));
+                    repoActivity = utils.getRepoActivity(controlDateArr[6], new Date(repo.pushed_at), repo.name) || repoActivity || "No recent repo activity";
                 }
+                else{
+                    forks++;
+                }
+            });
 
-                graphData = utils.prepareGraphData(controlDateArr, graphData, new Date(repo.pushed_at));
-                repoActivity = utils.getRepoActivity(controlDateArr[6], new Date(repo.pushed_at), repo.name) || "No recent repo activity";
-            }
-            else{
-                forks++;
-            }
-        });
+        }
 
-    }
-    return {
-        "forks": utils.abbreviateNumber(forks) || "-",
-        "repos": utils.abbreviateNumber(repoCount) || "-",
-        "stargazers": utils.abbreviateNumber(stargazers) || "-",
-        "languages": languages + "" || "-",
-        "repo-activity": repoActivity + "" || "-",
-        "graphData": graphData || [0,0,0,0,0,0,0]
-    }
-
-
-
-},
+        return {
+            "forks": utils.abbreviateNumber(forks),
+            "repos": utils.abbreviateNumber(repoCount),
+            "stargazers": utils.abbreviateNumber(stargazers),
+            "languages": languages + "",
+            "repo-activity": repoActivity + "",
+            "graphData": graphData
+        }
+    },
 
     abbreviateNumber(number){
         const million = 1000000, thousand = 1000;
@@ -90,7 +83,7 @@ export const utils = {
         return number + "";
     },
 
-    getRepoActivity(controlDate, repoDate, repoName = "There is no repo activity"){
+    getRepoActivity(controlDate, repoDate, repoName ){
         if(controlDate > repoDate){
             return null;
         }
@@ -118,7 +111,7 @@ export const utils = {
     },
 
     httpGet(theUrl){
-        return new Promise(function(resolve, reject) {
+        return new Promise(function(resolve) {
             let xmlHttp = new XMLHttpRequest();
             xmlHttp.open("GET", theUrl);
             xmlHttp.send();
@@ -129,11 +122,5 @@ export const utils = {
                 })
             }
         })
-    },
-
-    debounce(dispatch, func, event, timeout = null){
-        clearTimeout(timeout);
-        timeout = setTimeout(func, 720, dispatch, event.target.value || "facebook");
-        dispatch(timeoutAction(timeout))
     }
 };

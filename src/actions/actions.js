@@ -1,5 +1,5 @@
 import {
-    TIMEOUT,
+    SET_DEBOUNCE_TIMEOUT,
     UPDATE_BADGE_DATA
 } from "../const";
 
@@ -13,7 +13,7 @@ export function updateBadgeDataAction(allFields){
 
 export function timeoutAction(timeout){
     return {
-        type: TIMEOUT,
+        type: SET_DEBOUNCE_TIMEOUT,
         payload: timeout
     }
 }

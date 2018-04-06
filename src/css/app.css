@@ -1,9 +1,49 @@
-@media only screen and (max-width: 768px) {
     .container {
         height: 800px;
+        width: 900px;
         display: flex;
         flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .bodybuilder{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .center {
+        width: 86%;
+        height: 500px;
+        display: flex;
+        flex-direction: row;
         justify-content: space-between;
         align-items: center;
     }
+
+    .center .left {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+
+
+@media only screen and (min-width: 768px) {
+    .center {
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    .center-cat{
+        width: 500px;
+        height: 500px;
+        background: url(../images/icon-octocat.png) no-repeat 0 -20px;
+    }
+
 }

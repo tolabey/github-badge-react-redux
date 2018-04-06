@@ -1,8 +1,7 @@
-@media only screen and (max-width: 720px) {
 
     .badge {
         height: 140px;
-        width: 260px;
+        width: 290px;
         border-radius: 4px;
         border: 1px solid #ddd;
     }
@@ -109,4 +108,3 @@
         width: 40px;
         height: 40px;
     }
-}

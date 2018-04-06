@@ -1,7 +1,10 @@
-@media only screen and (max-width: 768px) {
 
-    .forkMe {
-        position: absolute;
-    }
-
+.forkMe {
+    position: absolute;
 }
+
+.forkMe img {
+    height: 100px;
+    width: 100px;
+}
+

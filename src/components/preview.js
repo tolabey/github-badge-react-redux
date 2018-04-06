@@ -6,21 +6,23 @@ import BadgeError from "./badgeError";
 class Preview extends Component {
 
     render(){
+        const {data} = this.props;
+
         return (
             <div className="preview">
-                <h4>Preview</h4>
                 {
-                    this.props.main.get("status") === 200 ? (
-                        <Badge
-                            dispatch={this.props.dispatch}
-                            main={this.props.main}
-                        />
-                    ) : (
-                        <BadgeError
-                            dispatch={this.props.dispatch}
-                            userName={this.props.main.get("login")}
-                            status={this.props.main.get("status")}
-                        />
+                    data.size !== 0 &&
+                    (
+                        <div>
+                            <h4>Preview</h4>
+                            {
+                                data.get("status") === 200 ? (
+                                    <Badge data={data}/>
+                                ) : (
+                                    <BadgeError userName={data.get("login", "")} status={data.get("status")}/>
+                                )
+                            }
+                        </div>
                     )
                 }
             </div>

@@ -1,6 +1,5 @@
 import {
-    TIMEOUT,
-    STATUS,
+    SET_DEBOUNCE_TIMEOUT,
     UPDATE_BADGE_DATA
 } from "../const";
 import I from "immutable"
@@ -8,18 +7,10 @@ import I from "immutable"
 
 export function reducer(state = I.Map(), action){
     switch (action.type){
-
         case UPDATE_BADGE_DATA:
-            let newState = I.Map();
-            for(let key in action.payload) {
-                newState = newState.set(key, action.payload[key]);
-            }
-            return newState;
-        case TIMEOUT:
-            console.log(action.payload);
+            return state.set("badgeData", I.fromJS(action.payload));
+        case SET_DEBOUNCE_TIMEOUT:
             return state.set("timeout", action.payload);
-        case STATUS:
-            return state.set("status", action.payload);
         default:
             return state;
     }

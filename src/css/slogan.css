@@ -1,17 +1,23 @@
-@media only screen and (max-width: 768px) {
 
-    .slogan {
+.slogan {
+    width: 300px;
+    min-height: 140px;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.slogan span {
+    background: url("../images/icon-github.png") no-repeat;
+    height: 66px;
+    width: 150px;
+}
+
+@media only screen and (min-width: 768px) {
+    .slogan{
         width: 300px;
-        display: flex;
-        justify-content: flex-start;
-        flex-direction: column;
-        align-items: center;
 
-    }
-
-    .slogan span {
-        background: url("../images/icon-github.png") no-repeat;
-        height: 66px;
-        width: 150px;
     }
 }
