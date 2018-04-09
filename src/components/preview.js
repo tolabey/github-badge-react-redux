@@ -1,22 +1,22 @@
-import React, { Component } from 'react';
-import Badge from "./badge"
-import "../css/preview.css"
+import React, {Component} from "react";
+import Badge from "./badge";
+import "../css/preview.css";
 import BadgeError from "./badgeError";
-import I from "immutable"
+import I from "immutable";
 
 class Preview extends Component {
 
-    shouldComponentUpdate(nextProps){
-      return !I.is(this.props.data, nextProps.data);
-    }
+  shouldComponentUpdate(nextProps) {
+    return !I.is(this.props.data, nextProps.data);
+  }
 
-    render(){
-      console.log("chenagizhana")
-        const {data} = this.props;
+  render() {
+    console.log("chenagizhana");
+    const {data} = this.props;
 
-        return (
-          <div className="preview">
-            {
+    return (
+      <div className="preview">
+        {
                     data.size !== 0 &&
                     (
                     <div>
@@ -31,9 +31,9 @@ class Preview extends Component {
                     </div>
                     )
                 }
-          </div>
-        )
-    }
+      </div>
+    );
+  }
 }
 
 export default Preview;
